@@ -1,0 +1,58 @@
+/* .task-card {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-left: 4px solid #6366f1;
+} */
+
+.task-card {
+  background: white;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+   border-left: 4px solid #6366f1;
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.task-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* when dragging */
+.task-card:active {
+  cursor: grabbing;
+}
+
+
+.task-card h5 {
+  margin: 0 0 6px;
+}
+
+.task-card p {
+  font-size: 13px;
+  color: #555;
+}
+
+.status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.status.pending {
+  background: #fde68a;
+}
+
+.status.in-progress {
+  background: #bfdbfe;
+}
+
+.status.completed {
+  background: #bbf7d0;
+}
+

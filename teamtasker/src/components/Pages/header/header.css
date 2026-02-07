@@ -1,0 +1,48 @@
+.header {
+  background-color: #333;
+  color: white;
+  padding: 8px 20px;
+  /* reduced */
+  min-height: 48px;
+  /* important */
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.logo-image {
+  width: 55px;
+  height: 55px;
+  border-radius: 31px;
+
+}
+
+.logout-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.logoLbl {
+  font-weight: 500;
+}
+
+.right-menu {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  justify-content: center;
+}
+
+.welcome-message {
+  font-size: 16px;
+  font-weight: 400;
+}
