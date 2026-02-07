@@ -1,0 +1,120 @@
+.signup-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg,#f6f7fb,#eef1f7);
+}
+
+
+.signup-card {
+  width: 400px;
+  max-width: 90%;
+  padding: 20px 28px;   /* reduced */
+background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  text-align: center;
+  margin: 2px;
+  height: -webkit-fit-content;
+}
+
+
+
+/* LOGO */
+.signup-logo img {
+  width: 60px;
+  /* border-radius: 14px; */
+  margin-bottom: 10px;
+}
+
+/* HEADINGS */
+.signup-card h3 {
+  margin: 8px 0 4px 0;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 2px;
+}
+
+.signup-card:hover {
+  transform: translateY(-2px);
+  transition: 0.3s ease;
+}
+
+.subtitle {
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+
+/* FORM */
+.form-group {
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 9px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 4px;
+}
+
+.form-group input:focus {
+  border-color: #6366f1;
+  outline: none;
+}
+
+/* PASSWORD */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* BUTTON */
+.signup-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;   /* ⭐ extra breathing space */
+  background: #6366f1;
+  border: none;
+  color: white;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+
+.signup-btn:hover {
+  background: #4f46e5;
+}
+
+/* LOGIN LINK */
+.login-link {
+  margin-top: 2px;
+  font-size: 14px;
+}
+
+.login-link span {
+  color: #6366f1;
+  cursor: pointer;
+  font-weight: 500;
+}

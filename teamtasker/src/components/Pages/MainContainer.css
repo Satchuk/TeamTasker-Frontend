@@ -1,0 +1,17 @@
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+.home-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.main-content {
+  display: flex;
+   flex: 8;
+   overflow: hidden;
+}
