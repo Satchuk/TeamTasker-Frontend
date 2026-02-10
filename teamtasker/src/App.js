@@ -6,6 +6,7 @@ import { Login } from './components/Pages/logIn';
 import MainContainer from './components/Pages/MainContainer';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
+import Profile from './components/Pages/body/Profile';
 
 function App() {
   return (
@@ -40,6 +41,15 @@ function App() {
           element={
             <ProtectedRoute>
               <MainContainer />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

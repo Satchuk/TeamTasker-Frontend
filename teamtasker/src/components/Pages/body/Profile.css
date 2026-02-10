@@ -1,0 +1,93 @@
+.profile-page {
+  padding: 0px;
+  background: #f6f7fb;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* centers card horizontally */
+  width: 100%;
+}
+
+
+.profile-page h2 {
+  margin-bottom: 20px;
+}
+
+/* CARD */
+.profile-card {
+  background: #fff;
+  width: 480px;          /* increased from 420px */
+  padding: 35px 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+
+/* AVATAR */
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NAME & ROLE */
+.profile-name {
+  margin: 6px 0 4px;
+}
+
+.profile-role {
+  display: block;
+  margin-bottom: 8px;
+}
+
+/* DIVIDER */
+.profile-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 20px 0;
+}
+
+/* ROWS */
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.profile-row span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.profile-row p {
+  font-weight: 600;
+  color: #111827;
+    word-break: break-word;
+}
+
+/* LOGOUT */
+.logout-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #ef4444;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}

@@ -8,6 +8,7 @@ import TaskBoard from './body/TaskBoard';
 import { setUser } from '../../Store/authSlice';
 import { useDispatch } from 'react-redux';
 import { getProfileApi } from '../../APi/AuthAPI';
+import Profile from './body/Profile';
 
 export const MainContainer = () => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ export const MainContainer = () => {
 
         {activePage === "dashboard" && <DSBody />}
         {activePage === "tasks" && <TaskBoard />}
+        {activePage === "profile" && <Profile />}
       </div>
       <Footer />
     </div>

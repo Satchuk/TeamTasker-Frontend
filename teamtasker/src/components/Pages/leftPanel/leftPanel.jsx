@@ -30,7 +30,7 @@ const LeftPanel = ({ setActivePage }) => {
           {isOpen && <span>Task Board</span>}
         </li>
 
-        <li>
+        <li  onClick={() => setActivePage("profile")}>
           <FaUser className="icon" />
           {isOpen && <span>Profile</span>}
         </li>
