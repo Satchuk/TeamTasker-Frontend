@@ -18,6 +18,15 @@ const TaskBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const tasksPerPage = 5;
+
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+
+  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  const totalPages = Math.ceil(tasks.length / tasksPerPage);
 
 
 
@@ -44,6 +53,7 @@ const TaskBoard = () => {
       // Refresh task list after creation
       setTasks(prev => [response.data, ...prev]);
       setShowModal(false);
+      setCurrentPage(1);
 
     } catch (err) {
       console.error("Create task failed", err);
@@ -91,9 +101,8 @@ const TaskBoard = () => {
     try {
       await deleteTaskApi(taskToDelete, token);
 
-      setTasks(prev =>
-        prev.filter(task => task._id !== taskToDelete)
-      );
+      setTasks(prev => prev.filter(task => task._id !== taskToDelete));
+      setCurrentPage(1);
 
       setShowDeleteModal(false);
       setTaskToDelete(null);
@@ -255,45 +264,67 @@ const TaskBoard = () => {
       {/* TABLE VIEW */}
       {
         tasks.length > 0 && viewType === "table" && (
-          <table className="task-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Assigned</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {tasks.map(task => (
-                <tr key={task._id}>
-                  <td>{task.title}</td>
-                  <td className="desc">{task.description}</td>
-
-                  <td>
-                    <span className={`status ${task.status}`}>
-                      {task.status}
-                    </span>
-                  </td>
-
-                  <td>{task.assignedTo}</td>
-
-                  <td className="actions">
-                    <button className="edit-btn" onClick={() => {
-                      setSelectedTask(task);
-                      setShowUpdateModal(true);
-                    }}>Edit</button>
-                    <button className="delete-btn" onClick={() => {
-                      setTaskToDelete(task._id);
-                      setShowDeleteModal(true);
-                    }}>Delete</button>
-                  </td>
+          <>
+            <table className="task-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Assigned</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {currentTasks.map(task => (
+                  <tr key={task._id}>
+                    <td>{task.title}</td>
+                    <td className="desc">{task.description}</td>
+
+                    <td>
+                      <span className={`status ${task.status}`}>
+                        {task.status}
+                      </span>
+                    </td>
+
+                    <td>{task.assignedTo}</td>
+
+                    <td className="actions">
+                      <button className="edit-btn" onClick={() => {
+                        setSelectedTask(task);
+                        setShowUpdateModal(true);
+                      }}>Edit</button>
+                      <button className="delete-btn" onClick={() => {
+                        setTaskToDelete(task._id);
+                        setShowDeleteModal(true);
+                      }}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="pagination">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => prev - 1)}
+              >
+                Prev
+              </button>
+
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
+
+          </>
         )
       }
 
