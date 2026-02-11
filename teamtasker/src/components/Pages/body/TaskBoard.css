@@ -226,3 +226,19 @@
     .pagination span {
         font-weight: 500;
     }
+
+    .filter-btn {
+        border: 1px solid;
+        margin-bottom: 6px;
+        background-color: blue;
+        background: #6366f1;
+        color: white;
+        border-color: #6366f1;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .filter-icon {
+        width: 24px;
+        height: 24px;
+    }

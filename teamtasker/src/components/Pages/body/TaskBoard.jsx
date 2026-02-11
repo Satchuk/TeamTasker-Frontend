@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./TaskBoard.css";
 import CreateTaskModal from "./CreateTaskModal";
 import { createTaskApi, deleteTaskApi, getAllTasksApi, updateTaskApi } from "../../../APi/TaskAPI";
-import { getDashboardData } from "../../../APi/DashboardAPI";
 import { useSelector } from "react-redux";
 import TaskCard from "./TaskCard";
 import UpdateTaskModal from "../Modals/UpdateTaskModal";
 import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
+import FilterModal from "../Modals/FilterModal";
+import filter from '../../../Assets/filter.png';
 
 const TaskBoard = () => {
 
@@ -19,14 +20,19 @@ const TaskBoard = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [filters, setFilters] = useState({
+    status: "all",
+    assignee: "all",
+    date: ""
+  });
+  const [appliedFilters, setAppliedFilters] = useState(filters);
   const tasksPerPage = 5;
 
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
 
-  const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
 
-  const totalPages = Math.ceil(tasks.length / tasksPerPage);
 
 
 
@@ -72,13 +78,6 @@ const TaskBoard = () => {
     setShowUpdateModal(false);
   };
 
-  const handleDeleteTask = async (taskId) => {
-    await deleteTaskApi(taskId, token);
-
-    setTasks(prev => prev.filter(task => task._id !== taskId));
-
-    setShowUpdateModal(false);
-  };
 
   const handleDrop = async (e, newStatus) => {
     const taskId = e.dataTransfer.getData("taskId");
@@ -112,7 +111,44 @@ const TaskBoard = () => {
     }
   };
 
+  const filteredTasks = tasks.filter(task => {
+    const matchStatus =
+      appliedFilters.status === "all" || task.status === appliedFilters.status;
 
+    const matchAssignee =
+      appliedFilters.assignee === "all" || task.assignedTo === appliedFilters.assignee;
+
+    const matchDate =
+      !appliedFilters.date ||
+      new Date(task.createdAt).toISOString().slice(0, 10) === appliedFilters.date;
+
+    return matchStatus && matchAssignee && matchDate;
+  });
+
+  const currentTasks = filteredTasks.slice(
+    indexOfFirstTask,
+    indexOfLastTask
+  );
+
+  const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
+
+   const handleApplyFilters = () => {
+        setAppliedFilters(filters);
+        setCurrentPage(1);
+        setShowFilterModal(false);
+    };
+
+    const handleResetFilters = () => {
+        const reset = {
+            status: "all",
+            assignee: "all",
+            date: ""
+        };
+
+        setFilters(reset);
+        setAppliedFilters(reset);
+        setCurrentPage(1);
+    };
 
 
   return (
@@ -265,6 +301,14 @@ const TaskBoard = () => {
       {
         tasks.length > 0 && viewType === "table" && (
           <>
+            <div className="table-actions-bar">
+              <button
+                className="filter-btn"
+                onClick={() => setShowFilterModal(true)}
+              >
+               <img src={filter} alt="filter" className="filter-icon" />
+              </button>
+            </div>
             <table className="task-table">
               <thead>
                 <tr>
@@ -361,6 +405,19 @@ const TaskBoard = () => {
             setTaskToDelete(null);
           }}
           onConfirm={confirmDeleteTask}
+        />
+      )}
+
+      {showFilterModal && (
+        <FilterModal
+          filters={filters}
+          setFilters={setFilters}
+          tasks={tasks}
+          onClose={() => setShowFilterModal(false)}
+          onApply={() => {
+           handleApplyFilters();
+          }}
+          onreset={handleResetFilters}
         />
       )}
     </main >
