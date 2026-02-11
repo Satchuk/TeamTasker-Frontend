@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./TaskBoard.css";
 import CreateTaskModal from "./CreateTaskModal";
 import { createTaskApi, deleteTaskApi, getAllTasksApi, updateTaskApi } from "../../../APi/TaskAPI";
-import { getDashboardData } from "../../../APi/DashboardAPI";
 import { useSelector } from "react-redux";
 import TaskCard from "./TaskCard";
 import UpdateTaskModal from "../Modals/UpdateTaskModal";
 import ConfirmDeleteModal from "../Modals/ConfirmDeleteModal";
+import FilterModal from "../Modals/FilterModal";
+import filter from '../../../Assets/filter.png';
 
 const TaskBoard = () => {
 
@@ -18,6 +19,20 @@ const TaskBoard = () => {
   const [tasks, setTasks] = useState([]);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const [filters, setFilters] = useState({
+    status: "all",
+    assignee: "all",
+    date: ""
+  });
+  const [appliedFilters, setAppliedFilters] = useState(filters);
+  const tasksPerPage = 5;
+
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+
+
 
 
 
@@ -44,6 +59,7 @@ const TaskBoard = () => {
       // Refresh task list after creation
       setTasks(prev => [response.data, ...prev]);
       setShowModal(false);
+      setCurrentPage(1);
 
     } catch (err) {
       console.error("Create task failed", err);
@@ -62,13 +78,6 @@ const TaskBoard = () => {
     setShowUpdateModal(false);
   };
 
-  const handleDeleteTask = async (taskId) => {
-    await deleteTaskApi(taskId, token);
-
-    setTasks(prev => prev.filter(task => task._id !== taskId));
-
-    setShowUpdateModal(false);
-  };
 
   const handleDrop = async (e, newStatus) => {
     const taskId = e.dataTransfer.getData("taskId");
@@ -91,9 +100,8 @@ const TaskBoard = () => {
     try {
       await deleteTaskApi(taskToDelete, token);
 
-      setTasks(prev =>
-        prev.filter(task => task._id !== taskToDelete)
-      );
+      setTasks(prev => prev.filter(task => task._id !== taskToDelete));
+      setCurrentPage(1);
 
       setShowDeleteModal(false);
       setTaskToDelete(null);
@@ -103,7 +111,44 @@ const TaskBoard = () => {
     }
   };
 
+  const filteredTasks = tasks.filter(task => {
+    const matchStatus =
+      appliedFilters.status === "all" || task.status === appliedFilters.status;
 
+    const matchAssignee =
+      appliedFilters.assignee === "all" || task.assignedTo === appliedFilters.assignee;
+
+    const matchDate =
+      !appliedFilters.date ||
+      new Date(task.createdAt).toISOString().slice(0, 10) === appliedFilters.date;
+
+    return matchStatus && matchAssignee && matchDate;
+  });
+
+  const currentTasks = filteredTasks.slice(
+    indexOfFirstTask,
+    indexOfLastTask
+  );
+
+  const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
+
+   const handleApplyFilters = () => {
+        setAppliedFilters(filters);
+        setCurrentPage(1);
+        setShowFilterModal(false);
+    };
+
+    const handleResetFilters = () => {
+        const reset = {
+            status: "all",
+            assignee: "all",
+            date: ""
+        };
+
+        setFilters(reset);
+        setAppliedFilters(reset);
+        setCurrentPage(1);
+    };
 
 
   return (
@@ -255,45 +300,75 @@ const TaskBoard = () => {
       {/* TABLE VIEW */}
       {
         tasks.length > 0 && viewType === "table" && (
-          <table className="task-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Assigned</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {tasks.map(task => (
-                <tr key={task._id}>
-                  <td>{task.title}</td>
-                  <td className="desc">{task.description}</td>
-
-                  <td>
-                    <span className={`status ${task.status}`}>
-                      {task.status}
-                    </span>
-                  </td>
-
-                  <td>{task.assignedTo}</td>
-
-                  <td className="actions">
-                    <button className="edit-btn" onClick={() => {
-                      setSelectedTask(task);
-                      setShowUpdateModal(true);
-                    }}>Edit</button>
-                    <button className="delete-btn" onClick={() => {
-                      setTaskToDelete(task._id);
-                      setShowDeleteModal(true);
-                    }}>Delete</button>
-                  </td>
+          <>
+            <div className="table-actions-bar">
+              <button
+                className="filter-btn"
+                onClick={() => setShowFilterModal(true)}
+              >
+               <img src={filter} alt="filter" className="filter-icon" />
+              </button>
+            </div>
+            <table className="task-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Assigned</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+
+              <tbody>
+                {currentTasks.map(task => (
+                  <tr key={task._id}>
+                    <td>{task.title}</td>
+                    <td className="desc">{task.description}</td>
+
+                    <td>
+                      <span className={`status ${task.status}`}>
+                        {task.status}
+                      </span>
+                    </td>
+
+                    <td>{task.assignedTo}</td>
+
+                    <td className="actions">
+                      <button className="edit-btn" onClick={() => {
+                        setSelectedTask(task);
+                        setShowUpdateModal(true);
+                      }}>Edit</button>
+                      <button className="delete-btn" onClick={() => {
+                        setTaskToDelete(task._id);
+                        setShowDeleteModal(true);
+                      }}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="pagination">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(prev => prev - 1)}
+              >
+                Prev
+              </button>
+
+              <span>
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage(prev => prev + 1)}
+              >
+                Next
+              </button>
+            </div>
+
+          </>
         )
       }
 
@@ -330,6 +405,19 @@ const TaskBoard = () => {
             setTaskToDelete(null);
           }}
           onConfirm={confirmDeleteTask}
+        />
+      )}
+
+      {showFilterModal && (
+        <FilterModal
+          filters={filters}
+          setFilters={setFilters}
+          tasks={tasks}
+          onClose={() => setShowFilterModal(false)}
+          onApply={() => {
+           handleApplyFilters();
+          }}
+          onreset={handleResetFilters}
         />
       )}
     </main >
