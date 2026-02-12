@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "../body/CreateTaskModal.css";
+import { useSelector } from "react-redux";
 
 const UpdateTaskModal = ({ task, onClose, onUpdate, onDelete }) => {
-
+  const { allUsers, username } = useSelector(state => state.auth);
+  const users = allUsers || [];
   const [form, setForm] = useState({
     title: task.title,
     description: task.description,
@@ -27,7 +29,7 @@ const UpdateTaskModal = ({ task, onClose, onUpdate, onDelete }) => {
           onChange={handleChange}
         />
 
-        <label>Description</label>      
+        <label>Description</label>
         <textarea
           name="description"
           value={form.description}
@@ -35,11 +37,26 @@ const UpdateTaskModal = ({ task, onClose, onUpdate, onDelete }) => {
         />
 
         <label>Assign To</label>
-        <input
+        <select
+          value={form.assignedTo}
+          onChange={(e) =>
+            setForm({ ...form, assignedTo: e.target.value })
+          }
+        >
+          <option value="">Assign User</option>
+
+          {users.map(user => (
+            <option key={user.email} value={user.email}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+
+        {/* <input
           name="assignedTo"
           value={form.assignedTo}
           onChange={handleChange}
-        />
+        /> */}
 
         <label>Status</label>
         <select

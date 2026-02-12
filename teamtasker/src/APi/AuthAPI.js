@@ -32,3 +32,11 @@ export const getProfileApi = async () => {
         throw error;
     }
 };
+
+export const getAllUsersApi = (token) => {
+  return axios.get(`${API_URL}/all-users`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
