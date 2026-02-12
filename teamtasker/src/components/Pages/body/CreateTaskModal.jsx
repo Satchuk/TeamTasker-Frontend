@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import "./CreateTaskModal.css";
+import { useSelector } from "react-redux";
 
 const CreateTaskModal = ({ onClose, onCreate }) => {
+  const {allUsers,username} = useSelector(state => state.auth);
+  const users = allUsers || [];
 
   const [form, setForm] = useState({
     title: "",
     description: "",
-    status: "pending"
+    status: "pending",
+    assignedTo: username || ""
   });
 
   const handleChange = (e) => {
@@ -40,6 +44,22 @@ const CreateTaskModal = ({ onClose, onCreate }) => {
           value={form.description}
           onChange={handleChange}
         />
+
+        <select
+          value={form.assignedTo}
+          onChange={(e) =>
+            setForm({ ...form, assignedTo: e.target.value })
+          }
+        >
+          <option value="">Assign User</option>
+
+          {users.map(user => (
+            <option key={user.email} value={user.email}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+
 
         <select
           name="status"
