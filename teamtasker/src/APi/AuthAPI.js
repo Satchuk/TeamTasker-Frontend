@@ -1,6 +1,7 @@
 import axios from "axios";
+import { baseURL } from "../App";
 
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL = `${baseURL}/api/auth`;
 
 export const regesiterUserApi = async (user) => {
     try {
@@ -14,8 +15,8 @@ export const regesiterUserApi = async (user) => {
 
 // Login user
 export const loginUserApi = async (userData) => {
-  const response = await axios.post(`${API_URL}/login`, userData);
-  return response;
+    const response = await axios.post(`${API_URL}/login`, userData);
+    return response;
 }
 
 export const getProfileApi = async () => {
@@ -34,9 +35,33 @@ export const getProfileApi = async () => {
 };
 
 export const getAllUsersApi = (token) => {
-  return axios.get(`${API_URL}/all-users`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
+    return axios.get(`${API_URL}/all-users`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
 };
+
+export const forgetPwd = async (email) => {
+    try {
+        const response = await axios.post(`${API_URL}/forgot-password`,
+            { email }
+        );
+
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const resetPwd = async (token, password) => {
+    try {
+        const response = await axios.put(
+            `${API_URL}/reset-password/${token}`,
+            { password }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+}
