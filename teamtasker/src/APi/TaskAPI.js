@@ -1,5 +1,7 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:5000/api/tasks";
+import { baseURL } from "../App";
+
+const BASE_URL = `${baseURL}/api/tasks`;
 
 
 export const createTaskApi = (taskData, token) => {

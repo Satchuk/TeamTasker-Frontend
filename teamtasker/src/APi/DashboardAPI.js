@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API_URL = 'http://localhost:5000/api/dashboard';
+import { baseURL } from "../App";
+const API_URL = `${baseURL}/api/dashboard`;
 
 export const getDashboardData = async (userId) => {
     try {
