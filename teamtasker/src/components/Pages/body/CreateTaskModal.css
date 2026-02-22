@@ -1,0 +1,92 @@
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  width: 360px;
+  padding: 16px;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 485px;
+
+  position: relative;
+  z-index: 10000;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+
+.modal input,
+.modal textarea,
+.modal select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.modal textarea {
+  height: 70px;
+   resize: vertical;   
+  /* resize: none; */
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  /* margin-top: 6px; */
+    margin-top: auto;
+}
+
+.modal-actions .cancel {
+  background: #e5e7eb;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.modal-actions .create {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+.modal-actions .create:hover {
+  background: #4f46e5;
+}
+
+.modal-actions button {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.modal h3 {
+  margin: 0 0 6px 0;
+  font-size: 18px;
+}
+
+.modal-actions .delete {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+.modal-actions .delete:hover {
+  background: #dc2626;
+}
