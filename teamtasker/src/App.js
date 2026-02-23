@@ -10,8 +10,6 @@ import Profile from './components/Pages/body/Profile';
 // import ForgotPassword from './components/Pages/ForgotPassword';
 // import ResetPassword from './components/Pages/ResetPassword';
 
-// export const baseURL = "http://localhost:5000";
-// export const baseURL = "https://teamtasker-backend-e8aa.onrender.com";
 
 
 function App() {
