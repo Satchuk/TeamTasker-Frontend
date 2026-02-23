@@ -7,11 +7,11 @@ import MainContainer from './components/Pages/MainContainer';
 import ProtectedRoute from './routes/ProtectedRoute';
 import PublicRoute from './routes/PublicRoute';
 import Profile from './components/Pages/body/Profile';
-import ForgotPassword from './components/Pages/ForgotPassword';
-import ResetPassword from './components/Pages/ResetPassword';
+// import ForgotPassword from './components/Pages/ForgotPassword';
+// import ResetPassword from './components/Pages/ResetPassword';
 
 // export const baseURL = "http://localhost:5000";
-export const baseURL = "https://teamtasker-backend-e8aa.onrender.com";
+// export const baseURL = "https://teamtasker-backend-e8aa.onrender.com";
 
 
 function App() {
@@ -41,8 +41,8 @@ function App() {
           }
         />
 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" element={<ResetPassword />} />
+        {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+        {/* <Route path="/reset-password/:token" element={<ResetPassword />} /> */}
 
         {/* Protected Routes */}
         <Route

@@ -1,8 +1,8 @@
 import axios from "axios";
-import { baseURL } from "../App";
 
-const API_URL = `${baseURL}/api/auth`;
+const API_URL = `${process.env.REACT_APP_API_URL}/api/auth`;
 
+console.log(process.env.REACT_APP_API_URL,API_URL);
 export const regesiterUserApi = async (user) => {
     try {
         const response = await axios.post(`${API_URL}/register`, user);

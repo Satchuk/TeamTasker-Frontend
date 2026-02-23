@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { baseURL } from "../App";
-const API_URL = `${baseURL}/api/dashboard`;
+const API_URL = `${process.env.REACT_APP_API_URL}/api/dashboard`;
 
 export const getDashboardData = async (userId) => {
     try {
